@@ -368,52 +368,88 @@
             </div>
           </div>
 
-          <!-- SIMPLE WORKSPACE BAR: 4 SUMMARY CHIPS + FILTERS -->
+          <!-- WORKSPACE BAR: NIXTIO BENTO ANALYTICS + 5-DAY SCHEDULE + WORLD CUP KNOCKOUT BRACKET -->
           <div id="results-workspace" class="space-y-4">
 
-            <!-- Compact 4 Summary Chips -->
+            <!-- Compact 4 Nixtio-Style Analytics Bento Cards -->
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 desktop-only-grid">
-              <div class="clean-card px-4 py-3 flex items-center justify-between">
-                <div>
+              <!-- Card 1: Donut Ring Progress -->
+              <div class="clean-card px-4 py-3.5 flex items-center justify-between gap-2">
+                <div class="min-w-0">
                   <p class="text-[11px] text-[#6E6B78] font-medium">ตัดสินผลแล้ว</p>
-                  <p class="text-lg font-extrabold text-[#111114]"><span id="stat-completed">5</span> <span class="text-xs font-semibold text-[#6E6B78]">/ <span id="stat-total-events">46</span> รายการ</span></p>
+                  <p class="text-lg font-extrabold text-[#111114] leading-tight mt-0.5"><span id="stat-completed">5</span> <span class="text-xs font-semibold text-[#6E6B78]">/ <span id="stat-total-events">46</span></span></p>
+                  <span class="inline-block mt-1 px-2 py-0.5 rounded-full bg-[#FAF3FA] text-[#5B1855] text-[9.5px] font-bold">ผังสาย 46 รายการ</span>
                 </div>
-                <span class="w-9 h-9 rounded-full bg-[#111114] text-white flex items-center justify-center shrink-0">
-                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94.63 1.5 1.98 2.63 3.61 2.96V19H7v2h10v-2h-4v-3.1c1.63-.33 2.98-1.46 3.61-2.96C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2z"/></svg>
-                </span>
+                <div class="relative w-12 h-12 shrink-0 flex items-center justify-center">
+                  <svg class="w-12 h-12 -rotate-90" viewBox="0 0 44 44">
+                    <circle cx="22" cy="22" r="17" fill="none" stroke="#EFEAF4" stroke-width="5" />
+                    <circle id="stat-donut-circle" cx="22" cy="22" r="17" fill="none" stroke="#5B1855" stroke-width="5" stroke-linecap="round" stroke-dasharray="106.8" stroke-dashoffset="95" />
+                  </svg>
+                  <span id="stat-pct" class="absolute text-[9.5px] font-extrabold text-[#111114]">11%</span>
+                </div>
               </div>
 
-              <div onclick="switchTab('certificate')" class="clean-card px-4 py-3 flex items-center justify-between cursor-pointer hover:border-[#D8B8D4] transition">
-                <div>
-                  <p class="text-[11px] text-[#6E6B78] font-medium">เกียรติบัตรพร้อมพิมพ์</p>
-                  <p class="text-lg font-extrabold text-[#5B1855]"><span id="stat-certs">19</span> <span class="text-xs font-semibold text-[#6E6B78]">ใบ</span></p>
+              <!-- Card 2: Certificate Bar Metric -->
+              <div onclick="switchTab('certificate')" class="clean-card px-4 py-3.5 flex flex-col justify-between cursor-pointer hover:border-[#D8B8D4] transition">
+                <div class="flex items-start justify-between gap-2">
+                  <div>
+                    <p class="text-[11px] text-[#6E6B78] font-medium">เกียรติบัตรพร้อมพิมพ์</p>
+                    <p class="text-lg font-extrabold text-[#5B1855] leading-tight mt-0.5"><span id="stat-certs">19</span> <span class="text-xs font-semibold text-[#6E6B78]">ใบ</span></p>
+                  </div>
+                  <span class="w-8 h-8 rounded-full bg-[#FBF6EA] text-[#8A6520] border border-[#E8D5A7] flex items-center justify-center shrink-0">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a7 7 0 0 0-7 7c0 2.68 1.51 5.01 3.72 6.18L7 22l5-2.5L17 22l-1.72-6.82A6.996 6.996 0 0 0 19 9a7 7 0 0 0-7-7z"/></svg>
+                  </span>
                 </div>
-                <span class="w-9 h-9 rounded-full bg-[#FBF6EA] text-[#8A6520] border border-[#E8D5A7] flex items-center justify-center shrink-0">
-                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a7 7 0 0 0-7 7c0 2.68 1.51 5.01 3.72 6.18L7 22l5-2.5L17 22l-1.72-6.82A6.996 6.996 0 0 0 19 9a7 7 0 0 0-7-7z"/></svg>
-                </span>
+                <div class="mt-2 flex items-center gap-1.5">
+                  <div class="flex-1 h-1.5 rounded-full bg-[#EFEAF4] overflow-hidden flex">
+                    <div id="stat-cert-bar" class="h-full rounded-full bg-gradient-to-r from-[#5B1855] to-[#D8B76C]" style="width: 32%"></div>
+                  </div>
+                  <span class="text-[9.5px] font-bold text-[#8A6520]">พิมพ์ A4</span>
+                </div>
               </div>
 
-              <div class="clean-card px-4 py-3 flex items-center justify-between gap-2">
-                <div class="min-w-0">
-                  <p class="text-[11px] text-[#6E6B78] font-medium">ผู้นำเหรียญทองรวม</p>
-                  <p id="stat-leader" class="text-xs sm:text-sm font-extrabold text-[#111114] truncate mt-0.5">ร.ร.บ้านวังยาววิทยายน</p>
+              <!-- Card 3: Leader + Dot-Matrix Pills -->
+              <div class="clean-card px-4 py-3.5 flex flex-col justify-between">
+                <div class="flex items-start justify-between gap-2">
+                  <div class="min-w-0">
+                    <p class="text-[11px] text-[#6E6B78] font-medium">ผู้นำเหรียญทองรวม</p>
+                    <p id="stat-leader" class="text-xs sm:text-[13px] font-extrabold text-[#111114] truncate mt-0.5">ร.ร.บ้านวังยาววิทยายน</p>
+                  </div>
+                  <span id="stat-leader-badge" class="w-8 h-8 rounded-full bg-[#5B1855] text-[#F2D99A] flex items-center justify-center text-[10px] font-extrabold shrink-0">วย</span>
                 </div>
-                <span class="w-9 h-9 rounded-full bg-[#FAF3FA] text-[#5B1855] border border-[#E7D4E5] flex items-center justify-center shrink-0">
-                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="14" r="6"/><path d="M9 2h6l-1 5h-4z"/></svg>
-                </span>
+                <div id="stat-medal-dots" class="mt-2 flex items-center gap-1" title="สัดส่วนเหรียญผู้นำ">
+                  <span class="w-2.5 h-2.5 rounded-full bg-[#D8B76C]"></span>
+                  <span class="w-2.5 h-2.5 rounded-full bg-[#5B1855]"></span>
+                  <span class="w-2.5 h-2.5 rounded-full bg-[#5B1855]"></span>
+                  <span class="w-2.5 h-2.5 rounded-full bg-[#5B1855]"></span>
+                  <span class="text-[9.5px] font-bold text-[#6E6B78] ml-1">ทอง 1 · เงิน 3</span>
+                </div>
               </div>
 
-              <div class="clean-card px-4 py-3 flex items-center justify-between gap-2">
-                <div class="min-w-0">
-                  <p class="text-[11px] text-[#6E6B78] font-medium">สถานะฐานข้อมูล</p>
-                  <p id="connection-label" class="text-xs sm:text-sm font-extrabold text-[#5B1855] truncate mt-0.5">Google Sheets Ready</p>
+              <!-- Card 4: Pastel Purple-Gold Gradient Accent Card -->
+              <div class="clean-card px-4 py-3.5 flex flex-col justify-between border-[#E6D7EE]" style="background: linear-gradient(135deg, #F7F1FA 0%, #FDF8EB 100%);">
+                <div class="flex items-center justify-between gap-2">
+                  <p class="text-[11px] text-[#5B4970] font-semibold">สถานะฐานข้อมูล &amp; ผังสาย</p>
+                  <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 shrink-0"></span>
                 </div>
-                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 shrink-0"></span>
+                <p id="connection-label" class="text-xs sm:text-sm font-extrabold text-[#5B1855] truncate mt-0.5">Google Sheets Ready</p>
+                <p class="text-[9.5px] font-bold text-[#7A6136] mt-1">คลิกชื่อกีฬาเพื่อเปิดตารางสายตัดเชือก</p>
               </div>
             </div>
 
-            <!-- Filter Bar: 6 Category Pills + Level + Status + Search -->
+            <!-- Filter Bar: 5-Day Schedule Strip + 6 Category Pills + Level + Status + Search -->
             <div class="clean-card p-3.5 sm:p-4 space-y-3">
+              <!-- Nixtio Day Selector Strip -->
+              <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-1 border-b border-[#F2EEF6]" id="day-pills">
+                <span class="text-[10.5px] font-bold text-[#6E6B78] pr-1 whitespace-nowrap shrink-0">ปฏิทินแข่งขัน:</span>
+                <button type="button" onclick="setDayFilter('all')" data-day="all" class="day-pill px-3 py-1.5 rounded-full text-[11px] font-bold bg-[#5B1855] text-white shadow-sm cursor-pointer transition whitespace-nowrap shrink-0">ทุกวัน (30 พ.ย.–4 ธ.ค.)</button>
+                <button type="button" onclick="setDayFilter('d1')" data-day="d1" class="day-pill px-3 py-1.5 rounded-full text-[11px] font-medium bg-[#F8F6FB] text-[#5B4970] hover:bg-[#EFE8F6] cursor-pointer transition whitespace-nowrap shrink-0">30 พ.ย. · เปิดสนาม/แบ่งสาย</button>
+                <button type="button" onclick="setDayFilter('d2')" data-day="d2" class="day-pill px-3 py-1.5 rounded-full text-[11px] font-medium bg-[#F8F6FB] text-[#5B4970] hover:bg-[#EFE8F6] cursor-pointer transition whitespace-nowrap shrink-0">1 ธ.ค. · กีฬาอนุบาล</button>
+                <button type="button" onclick="setDayFilter('d3')" data-day="d3" class="day-pill px-3 py-1.5 rounded-full text-[11px] font-medium bg-[#F8F6FB] text-[#5B4970] hover:bg-[#EFE8F6] cursor-pointer transition whitespace-nowrap shrink-0">2 ธ.ค. · รอบ 8 ทีม/สาย</button>
+                <button type="button" onclick="setDayFilter('d4')" data-day="d4" class="day-pill px-3 py-1.5 rounded-full text-[11px] font-medium bg-[#F8F6FB] text-[#5B4970] hover:bg-[#EFE8F6] cursor-pointer transition whitespace-nowrap shrink-0">3 ธ.ค. · กรีฑา (หินแห่ฯ)</button>
+                <button type="button" onclick="setDayFilter('d5')" data-day="d5" class="day-pill px-3 py-1.5 rounded-full text-[11px] font-medium bg-[#F8F6FB] text-[#5B4970] hover:bg-[#EFE8F6] cursor-pointer transition whitespace-nowrap shrink-0">4 ธ.ค. · รอบตัดเชือก &amp; ชิงฯ</button>
+              </div>
+
               <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-0.5" id="category-pills">
                 <button type="button" onclick="setCatFilter('all')" data-cat="all" class="cat-pill px-3.5 py-2 rounded-full text-xs font-bold bg-[#111114] text-white cursor-pointer transition flex items-center gap-1.5 whitespace-nowrap shrink-0">
                   <svg class="w-3.5 h-3.5 text-[#E5C478]" viewBox="0 0 24 24" fill="currentColor"><path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94.63 1.5 1.98 2.63 3.61 2.96V19H7v2h10v-2h-4v-3.1c1.63-.33 2.98-1.46 3.61-2.96C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2z"/></svg>
@@ -464,21 +500,21 @@
 
             <!-- 2-Column Clean Workspace Grid -->
             <div class="grid grid-cols-1 xl:grid-cols-12 gap-5 items-start desktop-only-grid">
-              <!-- Left 8 Cols: Official 46-Event Results -->
+              <!-- Left 8 Cols: Official 46-Event Results + Clickable World Cup Knockout Bracket -->
               <div class="xl:col-span-8 clean-card overflow-hidden">
                 <div class="px-5 py-3.5 border-b border-[#EFEBF4] flex flex-col sm:flex-row sm:items-center justify-between gap-2 bg-[#FAFAFC]">
                   <div>
-                    <h2 class="text-sm font-extrabold text-[#111114]">สรุปผลการแข่งขัน 46 รายการ</h2>
-                    <p class="text-[11px] text-[#6E6B78]">ชนะเลิศ · รองชนะเลิศ อันดับ 1 · รองชนะเลิศ อันดับ 2 (ร่วม)</p>
+                    <h2 class="text-sm font-extrabold text-[#111114]">สรุปผลการแข่งขัน &amp; ผังสายรอบตัดเชือก (46 รายการ)</h2>
+                    <p class="text-[11px] text-[#6E6B78]">คลิกที่รายการแข่งขันใดก็ได้ เพื่อเปิดผังสายรอบคัดเลือก → รอบตัดเชือก → รอบชิงชนะเลิศ</p>
                   </div>
                   <span class="text-[11px] font-bold text-[#5B1855] bg-[#FAF3FA] border border-[#E7D4E5] px-3 py-1 rounded-full self-start" id="result-count-badge">แสดง 46 รายการ</span>
                 </div>
                 <div class="divide-y divide-[#F2F0F5]" id="results-list-container"></div>
               </div>
 
-              <!-- Right 4 Cols: Latest Match Scores + Medal Standings -->
+              <!-- Right 4 Cols: Clickable Match Scores + Momentum Curve + Medal Standings -->
               <div class="xl:col-span-4 space-y-4">
-                <!-- Card 1: Latest Match Scores -->
+                <!-- Card 1: Latest Match Scores (Clickable to open event bracket) -->
                 <div id="matches-section" class="clean-card p-4 space-y-3">
                   <div class="flex items-center justify-between gap-2">
                     <h3 class="text-sm font-extrabold text-[#111114]">สกอร์แมตช์ล่าสุด</h3>
@@ -488,6 +524,29 @@
                     </div>
                   </div>
                   <div class="grid grid-cols-1 gap-2.5 mobile-scroll-cards no-scrollbar" id="match-cards-grid"></div>
+
+                  <!-- Nixtio-Style Tournament Intensity Area Curve (Pastel Purple & Soft Gold) -->
+                  <div class="p-3 rounded-2xl bg-[#FAF8FC] border border-[#EFE9F5] space-y-1.5">
+                    <div class="flex items-center justify-between text-[10px]">
+                      <span class="font-bold text-[#5B1855]">ความเข้มข้นรอบแข่งขัน (5 วัน)</span>
+                      <span class="px-2 py-0.5 rounded-full bg-[#111114] text-[#E5C478] font-bold">รอบชิงฯ 4 ธ.ค.</span>
+                    </div>
+                    <svg viewBox="0 0 280 62" class="w-full h-14 overflow-visible" fill="none">
+                      <defs>
+                        <linearGradient id="trendFillPurple" x1="0%" y1="0%" x2="0%" y2="100%">
+                          <stop offset="0%" stop-color="#5B1855" stop-opacity="0.22" />
+                          <stop offset="100%" stop-color="#5B1855" stop-opacity="0.01" />
+                        </linearGradient>
+                      </defs>
+                      <path d="M 10 48 C 42 46, 56 34, 80 35 C 108 36, 126 16, 152 24 C 178 32, 206 14, 240 12 L 270 10 L 270 56 L 10 56 Z" fill="url(#trendFillPurple)" />
+                      <path d="M 10 48 C 42 46, 56 34, 80 35 C 108 36, 126 16, 152 24 C 178 32, 206 14, 240 12 L 270 10" stroke="#5B1855" stroke-width="2" stroke-linecap="round" />
+                      <path d="M 10 50 C 50 42, 85 45, 130 34 C 175 23, 215 26, 270 15" stroke="#C89E44" stroke-width="1.5" stroke-dasharray="3.5 3.5" stroke-linecap="round" />
+                      <circle cx="240" cy="12" r="3.5" fill="#111114" stroke="#E5C478" stroke-width="1.5" />
+                    </svg>
+                    <div class="flex items-center justify-between text-[9px] text-[#6E6B78] font-medium px-0.5">
+                      <span>30 พ.ย.</span><span>1 ธ.ค.</span><span>2 ธ.ค.</span><span>3 ธ.ค.</span><span class="font-bold text-[#5B1855]">4 ธ.ค.</span>
+                    </div>
+                  </div>
                 </div>
 
                 <!-- Card 2: Medal Standings -->
@@ -1014,6 +1073,8 @@
       matches: JSON.parse(JSON.stringify(DEFAULT_MATCHES)),
       rankings: JSON.parse(JSON.stringify(DEFAULT_RANKINGS)),
       currentCat: 'all',
+      currentDay: 'all',
+      expandedEventId: 'FB_7_P46_M',
       activeTab: 'results',
       activeCertRank: 'rank1',
       previewMode: 'desktop',
@@ -1388,6 +1449,33 @@
       toggleAdminMode('match');
     }
 
+    function getEventDayInfo(ev) {
+      if (ev.category === 'kindergarten' || ev.event_id === 'FB_K_MIX') {
+        return ['d2'];
+      }
+      if (ev.category === 'track') {
+        return ['d4'];
+      }
+      if (String(ev.level).indexOf('ป.1-3') !== -1) {
+        return ['d1', 'd2', 'd5'];
+      }
+      if (ev.status === 'ตัดสินแล้ว') {
+        return ['d1', 'd3', 'd5'];
+      }
+      return ['d1', 'd3', 'd5'];
+    }
+
+    function setDayFilter(day) {
+      state.currentDay = day;
+      document.querySelectorAll('.day-pill').forEach(function (btn) {
+        const active = btn.dataset.day === day;
+        btn.className = active
+          ? 'day-pill px-3 py-1.5 rounded-full text-[11px] font-bold bg-[#5B1855] text-white shadow-sm cursor-pointer transition whitespace-nowrap shrink-0'
+          : 'day-pill px-3 py-1.5 rounded-full text-[11px] font-medium bg-[#F8F6FB] text-[#5B4970] hover:bg-[#EFE8F6] cursor-pointer transition whitespace-nowrap shrink-0';
+      });
+      renderResults();
+    }
+
     function setCatFilter(cat) {
       state.currentCat = cat;
       document.querySelectorAll('.cat-pill').forEach(function (btn) {
@@ -1399,26 +1487,342 @@
       renderResults();
     }
 
+    function getSchoolMonogram(name) {
+      const cleaned = String(name || '')
+        .replace(/โรงเรียน|ร\.ร\.|บ้าน|ศพด\.อบต\.|ศพด\.วัด|ศพด\.|วัด/g, '')
+        .trim();
+      const consonants = cleaned.match(/[\u0E01-\u0E2E]/g);
+      if (consonants && consonants.length >= 2) return consonants[0] + consonants[1];
+      if (consonants && consonants.length === 1) return consonants[0];
+      return cleaned.slice(0, 2) || 'กฬ';
+    }
+
+    function toggleEventBracket(eventId) {
+      state.expandedEventId = (state.expandedEventId === eventId) ? null : eventId;
+      renderResults();
+    }
+
+    function focusEventBracket(eventId) {
+      if (state.currentCat !== 'all') setCatFilter('all');
+      if (state.currentDay !== 'all') setDayFilter('all');
+      state.expandedEventId = eventId;
+      renderResults();
+      const cardEl = document.getElementById('event-row-' + eventId);
+      if (cardEl) {
+        cardEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+
     function renderMatchCards() {
       const evMap = {};
       state.events.forEach(function (e) { evMap[e.event_id] = e; });
       const html = state.matches.slice(0, 4).map(function (m) {
         const ev = evMap[m.event_id] || { sport_name: m.event_id, level: '', category: 'football' };
         const isLive = String(m.match_status).indexOf('LIVE') !== -1 || String(m.match_status).indexOf('กำลัง') !== -1;
-        return '<div class="p-3 rounded-2xl border ' + (isLive ? 'border-[#E2C2DF] bg-[#FAF3FA]' : 'border-[#ECEAF0] bg-[#FAFAFC]') + ' space-y-2">' +
+        return '<div onclick="focusEventBracket(\'' + esc(m.event_id) + '\')" class="p-3 rounded-2xl border cursor-pointer hover:shadow-sm transition ' + (isLive ? 'border-[#E2C2DF] bg-[#FAF3FA] hover:border-[#5B1855]/45' : 'border-[#ECEAF0] bg-[#FAFAFC] hover:border-[#D4C4E2]') + ' space-y-2">' +
           '<div class="flex items-center justify-between text-[11px]">' +
             '<span class="font-bold text-[#111114] flex items-center gap-1.5 truncate">' + getSportSvgIcon(ev.category) + esc(toArabicDigits(ev.sport_name + ' ' + ev.level)) + '</span>' +
             '<span class="px-2 py-0.5 rounded-full text-[10px] font-bold shrink-0 ' + (isLive ? 'bg-[#5B1855] text-white' : 'bg-[#FBF6EA] text-[#8A6520] border border-[#E8D5A7]') + '">' + esc(toArabicDigits(m.match_status)) + '</span>' +
           '</div>' +
           '<div class="flex items-center justify-between gap-2 text-xs">' +
-            '<span class="font-bold text-[#111114] truncate flex-1">' + esc(shortSchool(m.team_a)) + '</span>' +
+            '<span class="inline-flex items-center gap-1.5 font-bold text-[#111114] truncate flex-1">' +
+              '<span class="w-5 h-5 rounded-full bg-[#FAF3FA] border border-[#E5D7EE] text-[#5B1855] text-[9px] font-extrabold flex items-center justify-center shrink-0">' + esc(getSchoolMonogram(m.team_a)) + '</span>' +
+              '<span class="truncate">' + esc(shortSchool(m.team_a)) + '</span>' +
+            '</span>' +
             '<span class="px-2.5 py-0.5 rounded-full bg-[#111114] text-[#E5C478] font-sport font-extrabold text-sm shrink-0">' + esc(m.score_a) + ' - ' + esc(m.score_b) + '</span>' +
-            '<span class="font-bold text-[#111114] truncate flex-1 text-right">' + esc(shortSchool(m.team_b)) + '</span>' +
+            '<span class="inline-flex items-center justify-end gap-1.5 font-bold text-[#111114] truncate flex-1 text-right">' +
+              '<span class="truncate">' + esc(shortSchool(m.team_b)) + '</span>' +
+              '<span class="w-5 h-5 rounded-full bg-[#FBF6EA] border border-[#EAD7A9] text-[#8A6520] text-[9px] font-extrabold flex items-center justify-center shrink-0">' + esc(getSchoolMonogram(m.team_b)) + '</span>' +
+            '</span>' +
           '</div>' +
-          '<p class="text-[10px] text-[#6E6B78]">' + esc(toArabicDigits(m.round_name)) + '</p>' +
+          '<div class="flex items-center justify-between text-[10px]">' +
+            '<span class="text-[#6E6B78]">' + esc(toArabicDigits(m.round_name)) + '</span>' +
+            '<span class="font-bold text-[#5B1855]">ดูผังสายตัดเชือก</span>' +
+          '</div>' +
         '</div>';
       }).join('');
       document.getElementById('match-cards-grid').innerHTML = html;
+    }
+
+    function buildBracketData(ev) {
+      const rk = state.rankings[ev.event_id] || null;
+      const done = ev.status === 'ตัดสินแล้ว' && rk && rk.rank1_school;
+      const isKid = ev.category === 'kindergarten' || ev.event_id === 'FB_K_MIX';
+      const isTrack = ev.category === 'track';
+      const basePool = isKid
+        ? SCHOOLS_MASTER.filter(function (s) { return s.group === 'อนุบาล'; }).map(function (s) { return s.name; })
+        : SCHOOLS_MASTER.filter(function (s) { return s.group !== 'อนุบาล'; }).map(function (s) { return s.name; });
+
+      const evMatch = state.matches.find(function (m) { return m.event_id === ev.event_id; });
+      const sched = getEventScheduleInfo(ev);
+
+      function getScoreSample(roundType, idx) {
+        if (ev.category === 'football') {
+          const tbl = { qf: [[2, 0], [3, 1], [1, 0], [2, 1]], sf: [[2, 1], [3, 2]], fin: [3, 1] };
+          return roundType === 'fin' ? tbl.fin : tbl[roundType][idx % tbl[roundType].length];
+        }
+        if (ev.category === 'court') {
+          const tbl = { qf: [[2, 0], [2, 1], [2, 0], [2, 1]], sf: [[2, 0], [2, 1]], fin: [2, 0] };
+          return roundType === 'fin' ? tbl.fin : tbl[roundType][idx % tbl[roundType].length];
+        }
+        if (isTrack) {
+          return roundType === 'fin' ? ['12.4 วิ', '12.8 วิ'] : ['ผ่าน', 'รอง'];
+        }
+        const tbl = { qf: [[13, 8], [13, 10], [13, 7], [13, 9]], sf: [[13, 9], [13, 11]], fin: [13, 7] };
+        return roundType === 'fin' ? tbl.fin : tbl[roundType][idx % tbl[roundType].length];
+      }
+
+      if (done) {
+        const chosen = [rk.rank1_school, rk.rank2_school, rk.rank3a_school, rk.rank3b_school].filter(Boolean);
+        const others = basePool.filter(function (n) { return chosen.indexOf(n) === -1; });
+        while (others.length < 8) {
+          others.push(SCHOOLS_MASTER[(others.length + 3) % SCHOOLS_MASTER.length].name);
+        }
+        const s1 = rk.rank1_school;
+        const s2 = rk.rank2_school || others[4];
+        const s3a = rk.rank3a_school || others[5];
+        const s3b = rk.rank3b_school || others[6];
+
+        let finA = getScoreSample('fin', 0)[0];
+        let finB = getScoreSample('fin', 0)[1];
+        if (evMatch && String(evMatch.round_name).indexOf('ชิง') !== -1) {
+          if (evMatch.team_a === s1) { finA = evMatch.score_a; finB = evMatch.score_b; }
+          else if (evMatch.team_b === s1) { finA = evMatch.score_b; finB = evMatch.score_a; }
+        } else if (rk.note) {
+          const mScore = String(rk.note).match(/(\d+)\s*[-–:]\s*(\d+)/);
+          if (mScore) { finA = mScore[1]; finB = mScore[2]; }
+        }
+
+        const qfNames = isTrack
+          ? ['ฮีตคัดเลือก 1', 'ฮีตคัดเลือก 2', 'ฮีตคัดเลือก 3', 'ฮีตคัดเลือก 4']
+          : ['คู่ที่ 1 (สาย A)', 'คู่ที่ 2 (สาย C)', 'คู่ที่ 3 (สาย B)', 'คู่ที่ 4 (สาย D)'];
+
+        const qfSeeds = [
+          [s1, others[0]],
+          [s3a, others[1]],
+          [s2, others[2]],
+          [s3b, others[3]]
+        ];
+
+        const qf = qfSeeds.map(function (pair, i) {
+          const sc = getScoreSample('qf', i);
+          return {
+            tag: qfNames[i],
+            teamA: pair[0],
+            teamB: pair[1],
+            scoreA: sc[0],
+            scoreB: sc[1],
+            winner: 0,
+            status: 'จบคู่'
+          };
+        });
+
+        const sf0 = getScoreSample('sf', 0);
+        const sf1 = getScoreSample('sf', 1);
+        const sf = [
+          { tag: 'ตัดเชือก คู่ที่ 1', teamA: s1, teamB: s3a, scoreA: sf0[0], scoreB: sf0[1], winner: 0, status: 'เข้าชิง' },
+          { tag: 'ตัดเชือก คู่ที่ 2', teamA: s2, teamB: s3b, scoreA: sf1[0], scoreB: sf1[1], winner: 0, status: 'เข้าชิง' }
+        ];
+
+        return {
+          done: true,
+          stageLabels: isTrack
+            ? ['1. ฮีตคัดเลือก (8 คน/ทีม)', '2. รอบรองชนะเลิศ (4)', '3. รอบชิงชนะเลิศ']
+            : ['1. รอบก่อนรองฯ คู่ที่ 1–4', '2. รอบตัดเชือก (4 ทีม)', '3. รอบชิงชนะเลิศ'],
+          scheduleText: sched.full,
+          champion: s1,
+          championAthlete: rk.rank1_athlete || ('ทีม' + shortSchool(s1)),
+          qf: qf,
+          sf: sf,
+          finalMatch: {
+            tag: 'รอบชิงชนะเลิศ',
+            teamA: s1,
+            teamB: s2,
+            scoreA: finA,
+            scoreB: finB,
+            winner: 0,
+            status: 'ชิงแชมป์'
+          }
+        };
+      }
+
+      // Undecided event -> seeded pending bracket showing pairs + schedule times
+      const seedOrder = basePool.slice(0, 8);
+      while (seedOrder.length < 8) seedOrder.push('ตัวแทนสาย ' + String.fromCharCode(65 + (seedOrder.length % 4)));
+
+      const qfTimes = isTrack
+        ? ['ฮีต 1 · 08:30 น.', 'ฮีต 2 · 09:00 น.', 'ฮีต 3 · 09:30 น.', 'ฮีต 4 · 10:00 น.']
+        : ['คู่ที่ 1 · 09:00 น.', 'คู่ที่ 2 · 10:00 น.', 'คู่ที่ 3 · 11:00 น.', 'คู่ที่ 4 · 13:00 น.'];
+
+      const qf = [0, 1, 2, 3].map(function (i) {
+        const useLive = (i === 0 && evMatch);
+        return {
+          tag: useLive ? toArabicDigits(evMatch.round_name) : qfTimes[i],
+          teamA: useLive ? evMatch.team_a : seedOrder[i * 2],
+          teamB: useLive ? evMatch.team_b : seedOrder[i * 2 + 1],
+          scoreA: useLive ? evMatch.score_a : '-',
+          scoreB: useLive ? evMatch.score_b : '-',
+          winner: -1,
+          status: useLive ? evMatch.match_status : 'รอสรุปผล'
+        };
+      });
+
+      const sf = [
+        { tag: isTrack ? 'รองฯ 1 · 13:30 น.' : 'ตัดเชือก 1 · 13:30 น.', teamA: 'ผู้ชนะ คู่ที่ 1', teamB: 'ผู้ชนะ คู่ที่ 2', scoreA: '-', scoreB: '-', winner: -1, status: 'รอคู่ชิง', placeholder: true },
+        { tag: isTrack ? 'รองฯ 2 · 14:15 น.' : 'ตัดเชือก 2 · 14:15 น.', teamA: 'ผู้ชนะ คู่ที่ 3', teamB: 'ผู้ชนะ คู่ที่ 4', scoreA: '-', scoreB: '-', winner: -1, status: 'รอคู่ชิง', placeholder: true }
+      ];
+
+      return {
+        done: false,
+        stageLabels: isTrack
+          ? ['1. ฮีตคัดเลือก 1–4', '2. รอบรองฯ (13:30 น.)', '3. ชิงชนะเลิศ (15:00 น.)']
+          : ['1. รอบแบ่งสาย/คู่ 1–4', '2. รอบตัดเชือก (13:30 น.)', '3. รอบชิงฯ (15:15 น.)'],
+        scheduleText: sched.full,
+        champion: null,
+        qf: qf,
+        sf: sf,
+        finalMatch: {
+          tag: 'รอบชิงชนะเลิศ · 15:15 น.',
+          teamA: 'ผู้ชนะตัดเชือก 1',
+          teamB: 'ผู้ชนะตัดเชือก 2',
+          scoreA: '-',
+          scoreB: '-',
+          winner: -1,
+          status: 'รอสรุปผล',
+          placeholder: true
+        }
+      };
+    }
+
+    function renderBracketMatchNode(matchObj, heightCls, isFinal) {
+      const hasWinner = matchObj.winner === 0 || matchObj.winner === 1;
+      const winA = matchObj.winner === 0;
+      const winB = matchObj.winner === 1;
+      const isLive = String(matchObj.status).indexOf('LIVE') !== -1 || String(matchObj.status).indexOf('กำลัง') !== -1;
+
+      function teamRow(name, score, isWin, isBottom) {
+        const rowBg = isWin ? (isFinal ? 'bg-[#FBF6EA]' : 'bg-[#FAF3FA]') : 'bg-white';
+        const txtCls = isWin ? 'font-extrabold text-[#111114]' : (matchObj.placeholder ? 'font-medium text-[#71717A]' : 'font-semibold text-[#3F3F46]');
+        const badgeCls = isWin
+          ? (isFinal ? 'bg-[#C89E44] text-white' : 'bg-[#5B1855] text-white')
+          : 'bg-[#F4F2F7] text-[#6E6B78]';
+        const scoreCls = isWin
+          ? (isFinal ? 'bg-[#111114] text-[#F2D99A]' : 'bg-[#5B1855] text-white')
+          : 'bg-[#F4F3F6] text-[#6E6B78]';
+        const borderB = isBottom ? '' : ' border-b border-[#EFEBF4]';
+        const disp = matchObj.placeholder ? name : shortSchool(name);
+        const mono = matchObj.placeholder ? 'รอ' : getSchoolMonogram(name);
+
+        return '<div class="flex items-center justify-between gap-1.5 px-2.5 flex-1 ' + rowBg + borderB + '">' +
+          '<div class="flex items-center gap-1.5 min-w-0">' +
+            '<span class="w-4 h-4 rounded-full text-[8px] font-extrabold flex items-center justify-center shrink-0 ' + badgeCls + '">' + esc(mono) + '</span>' +
+            '<span class="text-[10.5px] truncate ' + txtCls + '">' + esc(toArabicDigits(disp)) + '</span>' +
+          '</div>' +
+          '<span class="px-1.5 py-0.5 rounded-md font-sport text-[10.5px] font-extrabold shrink-0 ' + scoreCls + '">' + esc(toArabicDigits(score)) + '</span>' +
+        '</div>';
+      }
+
+      const cardBorder = isFinal
+        ? (hasWinner ? 'border-[#D7B975] shadow-md ring-1 ring-[#F4E6C3]' : 'border-[#DECFE8] border-dashed')
+        : (isLive ? 'border-[#5B1855] shadow-sm' : (hasWinner ? 'border-[#DFD5EB]' : 'border-[#E6E2EE] border-dashed'));
+
+      return '<div class="rounded-2xl bg-white border ' + cardBorder + ' overflow-hidden flex flex-col ' + heightCls + '">' +
+        '<div class="px-2.5 py-0.5 bg-[#FAFAFC] border-b border-[#F2EEF6] flex items-center justify-between text-[9px]">' +
+          '<span class="font-bold text-[#6E6B78] truncate">' + esc(toArabicDigits(matchObj.tag)) + '</span>' +
+          '<span class="font-bold shrink-0 ' + (isLive ? 'text-[#5B1855]' : (hasWinner ? 'text-[#8A6520]' : 'text-[#8C8798]')) + '">' + esc(toArabicDigits(matchObj.status)) + '</span>' +
+        '</div>' +
+        '<div class="flex-1 flex flex-col">' +
+          teamRow(matchObj.teamA, matchObj.scoreA, winA, false) +
+          teamRow(matchObj.teamB, matchObj.scoreB, winB, true) +
+        '</div>' +
+      '</div>';
+    }
+
+    function renderBracketHtml(ev) {
+      const b = buildBracketData(ev);
+      const qfColor = b.done ? '#5B1855' : '#D5C7E4';
+      const sfColor = b.done ? '#C89E44' : '#D5C7E4';
+      const dashAttr = b.done ? '' : ' stroke-dasharray="4 3"';
+
+      const stagePillsHtml = b.stageLabels.map(function (lbl, i) {
+        const active = b.done || i === 0;
+        return '<span class="px-2.5 py-1 rounded-full text-[10px] font-bold whitespace-nowrap ' +
+          (active ? 'bg-[#FAF3FA] text-[#5B1855] border border-[#E5D4EC]' : 'bg-[#F8F8FA] text-[#71717A] border border-[#E5E3EA]') + '">' + esc(toArabicDigits(lbl)) + '</span>';
+      }).join('<span class="text-[#C89E44] text-xs font-extrabold">&#8594;</span>');
+
+      const actionTagHtml = b.done
+        ? '<button type="button" onclick="event.stopPropagation(); openCertForEvent(\'' + esc(ev.event_id) + '\')" class="px-3 py-1 rounded-full champagne-btn text-[10.5px] font-extrabold cursor-pointer shrink-0">ดูเกียรติบัตรแชมป์</button>'
+        : (state.isAdminLoggedIn
+          ? '<button type="button" onclick="event.stopPropagation(); openAdminForEvent(\'' + esc(ev.event_id) + '\')" class="px-3 py-1 rounded-full plum-outline-btn text-[10.5px] font-bold cursor-pointer shrink-0">บันทึกผลสายนี้</button>'
+          : '<span class="px-2.5 py-1 rounded-full bg-white border border-[#E5E3EA] text-[#6E6B78] text-[10px] font-semibold shrink-0">ผู้ชมทั่วไป · รอสรุปผล</span>');
+
+      const championCardHtml = b.champion
+        ? '<div class="p-3 rounded-2xl border border-[#D7B975] shadow-sm text-center space-y-1" style="background: linear-gradient(135deg, #FBF6EA 0%, #FFFFFF 60%, #FAF3FA 100%);">' +
+            '<div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#111114] text-[#E5C478] text-[9.5px] font-extrabold">' +
+              '<svg class="w-3 h-3" viewBox="0 0 24 24" fill="currentColor"><path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94.63 1.5 1.98 2.63 3.61 2.96V19H7v2h10v-2h-4v-3.1c1.63-.33 2.98-1.46 3.61-2.96C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2z"/></svg>' +
+              '<span>แชมป์ชนะเลิศ</span>' +
+            '</div>' +
+            '<p class="text-xs font-extrabold text-[#111114] truncate">' + esc(shortSchool(b.champion)) + '</p>' +
+            '<p class="text-[10px] text-[#5B1855] font-semibold truncate">' + esc(toArabicDigits(b.championAthlete)) + '</p>' +
+          '</div>'
+        : '<div class="p-3 rounded-2xl border border-dashed border-[#D8C9E5] bg-white/80 text-center space-y-1">' +
+            '<p class="text-[10px] font-extrabold text-[#5B1855]">ถ้วยรางวัลชนะเลิศ</p>' +
+            '<p class="text-[10px] text-[#6E6B78]">รอผลการแข่งขันรอบชิงชนะเลิศ</p>' +
+          '</div>';
+
+      return '<div onclick="event.stopPropagation()" class="mt-3 pt-3 border-t border-[#ECE6F4] bg-gradient-to-br from-[#FAF8FC] via-[#FFFFFF] to-[#FCF8EE] rounded-2xl p-3 sm:p-4 space-y-3">' +
+        '<div class="flex flex-wrap items-center justify-between gap-2">' +
+          '<div class="flex flex-wrap items-center gap-1.5">' + stagePillsHtml + '</div>' +
+          actionTagHtml +
+        '</div>' +
+
+        '<div class="overflow-x-auto no-scrollbar pb-1">' +
+          '<div class="min-w-[680px] flex items-stretch">' +
+            '<!-- Column 1: 4 Quarterfinals (height 336px: centers 36, 124, 212, 300) -->' +
+            '<div class="w-[202px] shrink-0 h-[336px] flex flex-col justify-between">' +
+              renderBracketMatchNode(b.qf[0], 'h-[72px]', false) +
+              renderBracketMatchNode(b.qf[1], 'h-[72px]', false) +
+              renderBracketMatchNode(b.qf[2], 'h-[72px]', false) +
+              renderBracketMatchNode(b.qf[3], 'h-[72px]', false) +
+            '</div>' +
+
+            '<!-- SVG Connectors 1: QF (36,124)->SF1 (80) and QF (212,300)->SF2 (256) -->' +
+            '<div class="w-[34px] shrink-0 h-[336px]">' +
+              '<svg viewBox="0 0 34 336" class="w-full h-full" fill="none">' +
+                '<path d="M 0 36 H 17 V 124 H 0 M 17 80 H 34" stroke="' + qfColor + '" stroke-width="1.8"' + dashAttr + ' stroke-linecap="round" stroke-linejoin="round" />' +
+                '<path d="M 0 212 H 17 V 300 H 0 M 17 256 H 34" stroke="' + qfColor + '" stroke-width="1.8"' + dashAttr + ' stroke-linecap="round" stroke-linejoin="round" />' +
+              '</svg>' +
+            '</div>' +
+
+            '<!-- Column 2: 2 Semifinals (centered at y=80 and y=256) -->' +
+            '<div class="w-[194px] shrink-0 relative h-[336px]">' +
+              '<div style="position:absolute; left:0; right:0; top:41px;">' + renderBracketMatchNode(b.sf[0], 'h-[78px]', false) + '</div>' +
+              '<div style="position:absolute; left:0; right:0; top:217px;">' + renderBracketMatchNode(b.sf[1], 'h-[78px]', false) + '</div>' +
+            '</div>' +
+
+            '<!-- SVG Connectors 2: SF (80,256)->Final (168) -->' +
+            '<div class="w-[34px] shrink-0 h-[336px]">' +
+              '<svg viewBox="0 0 34 336" class="w-full h-full" fill="none">' +
+                '<path d="M 0 80 H 17 V 256 H 0 M 17 168 H 34" stroke="' + sfColor + '" stroke-width="2.1"' + dashAttr + ' stroke-linecap="round" stroke-linejoin="round" />' +
+              '</svg>' +
+            '</div>' +
+
+            '<!-- Column 3: Final Match (centered y=168) + Champion Trophy Box -->' +
+            '<div class="w-[216px] shrink-0 relative h-[336px]">' +
+              '<div style="position:absolute; left:0; right:0; top:98px;" class="text-center">' +
+                '<span class="inline-block px-2.5 py-0.5 rounded-full bg-[#111114] text-[#F2D99A] text-[9px] font-extrabold tracking-wide">ชิงชนะเลิศ</span>' +
+              '</div>' +
+              '<div style="position:absolute; left:0; right:0; top:123px;">' + renderBracketMatchNode(b.finalMatch, 'h-[90px]', true) + '</div>' +
+              '<div style="position:absolute; left:0; right:0; top:213px; height:22px;" class="flex justify-center">' +
+                '<div class="w-0.5 h-full ' + (b.done ? 'bg-[#C89E44]' : 'border-l border-dashed border-[#D5C7E4]') + '"></div>' +
+              '</div>' +
+              '<div style="position:absolute; left:0; right:0; top:235px;">' + championCardHtml + '</div>' +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+
+        '<p class="text-[10.5px] text-[#6E6B78]">' + esc(b.scheduleText) + '</p>' +
+      '</div>';
     }
 
     function renderResults() {
@@ -1427,6 +1831,7 @@
       const q = document.getElementById('search-input').value.trim().toLowerCase();
 
       const filtered = state.events.filter(function (ev) {
+        if (state.currentDay !== 'all' && getEventDayInfo(ev).indexOf(state.currentDay) === -1) return false;
         if (state.currentCat !== 'all' && ev.category !== state.currentCat) return false;
         if (lvl !== 'all' && String(ev.level).indexOf(lvl) === -1) return false;
         if (st !== 'all' && ev.status !== st) return false;
@@ -1449,6 +1854,7 @@
         const rk = state.rankings[ev.event_id];
         const done = ev.status === 'ตัดสินแล้ว' && rk && rk.rank1_school;
         const sched = getEventScheduleInfo(ev);
+        const isExpanded = state.expandedEventId === ev.event_id;
         const badgeCls = done
           ? 'bg-[#FBF6EA] text-[#8A6520] border border-[#E8D5A7]'
           : (ev.status === 'กำลังแข่งขัน' ? 'bg-[#5B1855] text-white' : 'bg-[#F3F2F6] text-[#6E6B78] border border-[#E5E3EA]');
@@ -1463,9 +1869,9 @@
 
         let actionBtn = '';
         if (done) {
-          actionBtn = '<button type="button" onclick="openCertForEvent(\'' + esc(ev.event_id) + '\')" class="px-3.5 py-1.5 rounded-full champagne-btn text-[11px] font-extrabold cursor-pointer whitespace-nowrap shrink-0">ดูเกียรติบัตร</button>';
+          actionBtn = '<button type="button" onclick="event.stopPropagation(); openCertForEvent(\'' + esc(ev.event_id) + '\')" class="px-3.5 py-1.5 rounded-full champagne-btn text-[11px] font-extrabold cursor-pointer whitespace-nowrap shrink-0">ดูเกียรติบัตร</button>';
         } else if (state.isAdminLoggedIn) {
-          actionBtn = '<button type="button" onclick="openAdminForEvent(\'' + esc(ev.event_id) + '\')" class="px-3.5 py-1.5 rounded-full plum-outline-btn text-[11px] font-bold cursor-pointer whitespace-nowrap shrink-0">บันทึกผล</button>';
+          actionBtn = '<button type="button" onclick="event.stopPropagation(); openAdminForEvent(\'' + esc(ev.event_id) + '\')" class="px-3.5 py-1.5 rounded-full plum-outline-btn text-[11px] font-bold cursor-pointer whitespace-nowrap shrink-0">บันทึกผล</button>';
         } else {
           const publicLabel = ev.status === 'กำลังแข่งขัน' ? 'กำลังแข่งขัน · รอสรุปผล' : ('เวลา ' + sched.time + ' · รอสรุปผล');
           const publicCls = ev.status === 'กำลังแข่งขัน'
@@ -1474,9 +1880,15 @@
           actionBtn = '<span class="inline-flex items-center px-3 py-1 rounded-full border text-[11px] whitespace-nowrap shrink-0 ' + publicCls + '">' + esc(publicLabel) + '</span>';
         }
 
-        return '<div class="p-3.5 sm:px-5 hover:bg-[#FAFAFC] transition">' +
-          '<div class="flex items-start justify-between gap-2">' +
-            '<div class="flex items-start gap-2.5 min-w-0">' +
+        const bracketToggleBtn = '<button type="button" onclick="event.stopPropagation(); toggleEventBracket(\'' + esc(ev.event_id) + '\')" class="px-2.5 py-1 rounded-full border text-[10.5px] font-bold inline-flex items-center gap-1 cursor-pointer transition shrink-0 ' +
+          (isExpanded ? 'bg-[#5B1855] text-white border-[#5B1855]' : 'bg-[#FAF3FA] text-[#5B1855] border-[#E5D4EC] hover:bg-[#F3E9F7]') + '">' +
+          '<span>' + (isExpanded ? 'ซ่อนผังสาย' : 'ผังสายตัดเชือก') + '</span>' +
+          '<svg class="w-3 h-3 transition-transform ' + (isExpanded ? 'rotate-180' : '') + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="6 9 12 15 18 9"/></svg>' +
+        '</button>';
+
+        return '<div id="event-row-' + esc(ev.event_id) + '" onclick="toggleEventBracket(\'' + esc(ev.event_id) + '\')" class="p-3.5 sm:px-5 cursor-pointer transition ' + (isExpanded ? 'bg-[#FCFBFD]' : 'hover:bg-[#FAFAFC]') + '">' +
+          '<div class="flex items-start justify-between gap-2 flex-wrap sm:flex-nowrap">' +
+            '<div class="flex items-start gap-2.5 min-w-0 flex-1">' +
               '<div class="mt-0.5">' + getSportSvgIcon(ev.category) + '</div>' +
               '<div class="min-w-0">' +
                 '<div class="flex items-center gap-2 flex-wrap">' +
@@ -1485,9 +1897,10 @@
                 '</div>' +
               '</div>' +
             '</div>' +
-            actionBtn +
+            '<div class="flex items-center gap-1.5 shrink-0">' + bracketToggleBtn + actionBtn + '</div>' +
           '</div>' +
           winnersHtml +
+          (isExpanded ? renderBracketHtml(ev) : '') +
         '</div>';
       }).join('');
     }
@@ -1514,12 +1927,21 @@
         }
       });
 
+      const totalEv = state.events.length || 46;
+      const pct = Math.min(100, Math.round((completed / totalEv) * 100));
       document.getElementById('stat-completed').textContent = completed;
-      document.getElementById('stat-total-events').textContent = state.events.length;
+      document.getElementById('stat-total-events').textContent = totalEv;
       document.getElementById('stat-certs').textContent = certCount;
+      const pctEl = document.getElementById('stat-pct');
+      const donutEl = document.getElementById('stat-donut-circle');
+      const certBarEl = document.getElementById('stat-cert-bar');
+      if (pctEl) pctEl.textContent = pct + '%';
+      if (donutEl) donutEl.setAttribute('stroke-dashoffset', (106.8 * (1 - pct / 100)).toFixed(1));
+      if (certBarEl) certBarEl.style.width = Math.max(12, Math.min(100, Math.round((certCount / (totalEv * 4)) * 100))) + '%';
+
       const phoneEv = document.getElementById('hero-phone-events');
       const phoneCert = document.getElementById('hero-phone-certs');
-      if (phoneEv) phoneEv.textContent = state.events.length;
+      if (phoneEv) phoneEv.textContent = totalEv;
       if (phoneCert) phoneCert.textContent = certCount;
 
       const sorted = Object.keys(tally).map(function (k) {
@@ -1529,7 +1951,19 @@
       });
 
       if (sorted.length) {
-        document.getElementById('stat-leader').textContent = shortSchool(sorted[0].school);
+        const lead = sorted[0];
+        document.getElementById('stat-leader').textContent = shortSchool(lead.school);
+        const badgeEl = document.getElementById('stat-leader-badge');
+        if (badgeEl) badgeEl.textContent = getSchoolMonogram(lead.school);
+        const dotsEl = document.getElementById('stat-medal-dots');
+        if (dotsEl) {
+          let dotsHtml = '';
+          for (let i = 0; i < Math.min(4, lead.g); i++) dotsHtml += '<span class="w-2.5 h-2.5 rounded-full bg-[#D8B76C]"></span>';
+          for (let i = 0; i < Math.min(4, lead.s); i++) dotsHtml += '<span class="w-2.5 h-2.5 rounded-full bg-[#5B1855]"></span>';
+          for (let i = 0; i < Math.min(3, lead.b); i++) dotsHtml += '<span class="w-2.5 h-2.5 rounded-full bg-[#D5C7E4]"></span>';
+          dotsHtml += '<span class="text-[9.5px] font-bold text-[#6E6B78] ml-1">ทอง ' + lead.g + ' · เงิน ' + lead.s + '</span>';
+          dotsEl.innerHTML = dotsHtml;
+        }
       }
 
       document.getElementById('medal-tbody').innerHTML = sorted.slice(0, 8).map(function (row, idx) {
