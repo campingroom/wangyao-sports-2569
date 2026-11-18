@@ -10,9 +10,19 @@
 
     body {
       font-family: 'Noto Sans Thai', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: radial-gradient(circle at 35% 15%, #CBD7BE 0%, #9CC6D4 52%, #85B8CD 100%);
+      background: #F7F5FA;
       color: #111114;
       min-height: 100vh;
+    }
+
+    @media (max-width: 640px) {
+      body {
+        background: #FFFFFF;
+      }
+      .studio-outer-frame {
+        border-radius: 24px !important;
+        box-shadow: none !important;
+      }
     }
 
     .font-sport {
@@ -25,7 +35,8 @@
     .studio-outer-frame {
       background: #FFFFFF;
       border-radius: 34px;
-      box-shadow: 0 32px 84px -24px rgba(18, 42, 54, 0.25);
+      border: 1px solid #EFEBF4;
+      box-shadow: 0 24px 64px -24px rgba(45, 22, 56, 0.12);
     }
 
     .clean-card {
