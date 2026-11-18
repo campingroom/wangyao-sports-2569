@@ -163,8 +163,6 @@
       padding-top: 8px;
       border-top: 1px solid #F3F0F7;
     }
-    .bracket-desktop-tree { display: none; }
-    .bracket-mobile-tree { display: block; }
     @media (min-width: 640px) {
       .event-card-layout {
         display: grid;
@@ -183,8 +181,6 @@
       }
       .event-card-body,
       .event-card-bracket { grid-column: 1 / -1; }
-      .bracket-desktop-tree { display: block; }
-      .bracket-mobile-tree { display: none; }
     }
     .phone-frame .event-card-layout {
       display: flex !important;
@@ -196,8 +192,6 @@
       padding-top: 8px !important;
       border-top: 1px solid #F3F0F7 !important;
     }
-    .phone-frame .bracket-desktop-tree { display: none !important; }
-    .phone-frame .bracket-mobile-tree { display: block !important; }
 
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
@@ -1928,40 +1922,17 @@
             '<p class="text-[10px] text-[#6E6B78]">รอผลการแข่งขันรอบชิงชนะเลิศ</p>' +
           '</div>';
 
-      const mobileBracketHtml = '<div class="bracket-mobile-tree space-y-2.5">' +
-        '<div class="space-y-1.5">' +
-          '<p class="text-[10.5px] font-extrabold text-[#5B1855] flex items-center justify-between"><span>' + esc(toArabicDigits(b.stageLabels[0])) + '</span><span class="text-[#8C8798] font-medium">4 คู่คัดเลือก</span></p>' +
-          '<div class="grid grid-cols-1 gap-1.5">' +
-            b.qf.map(function (m) { return renderBracketMatchNode(m, 'h-[66px]', false); }).join('') +
-          '</div>' +
-        '</div>' +
-        '<div class="flex items-center justify-center gap-2 py-0.5">' +
-          '<span class="h-px flex-1 bg-[#E5D4EC]"></span>' +
-          '<span class="px-2.5 py-0.5 rounded-full bg-[#FAF3FA] border border-[#E5D4EC] text-[10px] font-extrabold text-[#5B1855]">&#8595; ' + esc(toArabicDigits(b.stageLabels[1])) + '</span>' +
-          '<span class="h-px flex-1 bg-[#E5D4EC]"></span>' +
-        '</div>' +
-        '<div class="grid grid-cols-1 gap-1.5">' +
-          b.sf.map(function (m) { return renderBracketMatchNode(m, 'h-[68px]', false); }).join('') +
-        '</div>' +
-        '<div class="flex items-center justify-center gap-2 py-0.5">' +
-          '<span class="h-px flex-1 bg-[#E8D5A7]"></span>' +
-          '<span class="px-2.5 py-0.5 rounded-full bg-[#FBF6EA] border border-[#D7B975] text-[10px] font-extrabold text-[#8A6520]">&#8595; ' + esc(toArabicDigits(b.stageLabels[2])) + '</span>' +
-          '<span class="h-px flex-1 bg-[#E8D5A7]"></span>' +
-        '</div>' +
-        renderBracketMatchNode(b.finalMatch, 'h-[78px]', true) +
-        championCardHtml +
-      '</div>';
-
-      return '<div onclick="event.stopPropagation()" class="event-card-bracket mt-1 pt-3 border-t border-[#ECE6F4] bg-gradient-to-br from-[#FAF8FC] via-[#FFFFFF] to-[#FCF8EE] rounded-2xl p-3 sm:p-4 space-y-3">' +
+      return '<div onclick="event.stopPropagation()" class="event-card-bracket mt-1 pt-3 border-t border-[#ECE6F4] bg-gradient-to-br from-[#FAF8FC] via-[#FFFFFF] to-[#FCF8EE] rounded-2xl p-3 sm:p-4 space-y-2.5">' +
         '<div class="flex flex-wrap items-center justify-between gap-2">' +
-          '<div class="hidden sm:flex flex-wrap items-center gap-1.5">' + stagePillsHtml + '</div>' +
-          '<span class="sm:hidden text-[11px] font-extrabold text-[#111114]">ผังสายรอบตัดเชือก (แนวตั้ง)</span>' +
+          '<div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar max-w-full">' + stagePillsHtml + '</div>' +
           actionTagHtml +
         '</div>' +
 
-        mobileBracketHtml +
+        '<div class="sm:hidden flex items-center justify-between gap-2 px-2.5 py-1 rounded-xl bg-[#FAF3FA] border border-[#E7D4E5] text-[10px] font-semibold text-[#5B1855]">' +
+          '<span>&#8592; เลื่อนซ้าย-ขวาดูสายตัดเชือก &amp; รอบชิงฯ &#8594;</span>' +
+        '</div>' +
 
-        '<div class="bracket-desktop-tree overflow-x-auto no-scrollbar pb-1">' +
+        '<div class="overflow-x-auto pb-1.5">' +
           '<div class="min-w-[680px] flex items-stretch">' +
             '<!-- Column 1: 4 Quarterfinals (height 336px: centers 36, 124, 212, 300) -->' +
             '<div class="w-[202px] shrink-0 h-[336px] flex flex-col justify-between">' +
