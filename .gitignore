@@ -1,0 +1,6 @@
+.DS_Store
+.clasp.json
+.vercel
+node_modules/
+*.log
+~$*
