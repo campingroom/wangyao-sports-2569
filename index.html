@@ -1137,12 +1137,43 @@
             unlockSuccess('ยืนยันตัวตนแอดมินกับ Google Sheets สำเร็จ');
           })
           .catch(function () {
-            if (btnEl) btnEl.disabled = false;
-            showToast('เชื่อมต่อ Google Apps Script ไม่ได้ — เจ้าของชีตต้องกดอนุญาตสิทธิ์ Web App ครั้งแรกก่อนค่ะ');
+            verifyPinViaVercelApi(
+              pin,
+              function () {
+                if (btnEl) btnEl.disabled = false;
+                unlockSuccess('ยืนยันตัวตนแอดมินผ่าน Vercel API สำเร็จ');
+              },
+              function (msg) {
+                if (btnEl) btnEl.disabled = false;
+                showToast(msg || 'รหัส PIN แอดมินไม่ถูกต้อง');
+              }
+            );
           });
       } else {
         unlockSuccess('เข้าสู่ระบบแอดมินสำเร็จ (โหมดทดสอบภายในเครื่อง)');
       }
+    }
+
+    function verifyPinViaVercelApi(pin, onVerified, onRejected) {
+      if (window.location.origin.indexOf('http') !== 0) {
+        onRejected('ไม่สามารถเชื่อมต่อระบบยืนยัน PIN ออนไลน์ได้');
+        return;
+      }
+      fetch('/api/verify-pin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ pin: pin })
+      })
+        .then(function (r) {
+          return r.json().catch(function () { return { ok: false, message: 'ยืนยัน PIN ไม่สำเร็จ' }; });
+        })
+        .then(function (res) {
+          if (res && res.ok === true) onVerified(res);
+          else onRejected((res && res.message) ? res.message : 'รหัส PIN แอดมินไม่ถูกต้อง');
+        })
+        .catch(function () {
+          onRejected('ไม่สามารถติดต่อเซิร์ฟเวอร์ยืนยัน PIN ได้ กรุณาลองใหม่ค่ะ');
+        });
     }
 
     function logoutAdmin() {
@@ -1591,10 +1622,51 @@
           headers: { 'Content-Type': 'text/plain;charset=utf-8' },
           body: JSON.stringify({ action: action, payload: payload })
         })
-          .then(function (r) { return r.json(); })
+          .then(function (r) {
+            if (!r.ok) throw new Error('HTTP_' + r.status);
+            return r.json();
+          })
           .then(onSuccess)
           .catch(onError);
       }
+    }
+
+    function applyRankingLocally(eventId, payload, notice) {
+      state.rankings[eventId] = {
+        rank1_school: payload.rank1School,
+        rank1_athlete: payload.rank1Athlete,
+        rank2_school: payload.rank2School,
+        rank2_athlete: payload.rank2Athlete,
+        rank3a_school: payload.rank3aSchool,
+        rank3a_athlete: payload.rank3aAthlete,
+        rank3b_school: payload.rank3bSchool,
+        rank3b_athlete: payload.rank3bAthlete,
+        referee_name: payload.refereeName,
+        note: payload.note
+      };
+      const ev = state.events.find(function (x) { return x.event_id === eventId; });
+      if (ev) ev.status = 'ตัดสินแล้ว';
+      persistLocalState();
+      renderAll();
+      showToast(notice || 'บันทึกผลและประมวลผลเกียรติบัตรเรียบร้อยแล้ว');
+      openCertForEvent(eventId);
+    }
+
+    function applyMatchLocally(payload, notice) {
+      state.matches.unshift({
+        match_id: 'M_' + Date.now(),
+        event_id: payload.eventId,
+        round_name: payload.roundName,
+        team_a: payload.teamA,
+        score_a: payload.scoreA,
+        score_b: payload.scoreB,
+        team_b: payload.teamB,
+        match_status: payload.matchStatus === 'กำลังแข่งขัน' ? 'LIVE' : payload.matchStatus
+      });
+      persistLocalState();
+      renderMatchCards();
+      showToast(notice || ('บันทึกสกอร์ ' + payload.scoreA + ' - ' + payload.scoreB + ' เรียบร้อยแล้ว'));
+      switchTab('results');
     }
 
     function submitAdminRanking(e) {
@@ -1643,29 +1715,26 @@
             openCertForEvent(eventId);
           },
           function () {
+            if (state.hasRemoteApi && state.isAdminLoggedIn) {
+              verifyPinViaVercelApi(
+                pin,
+                function () {
+                  document.getElementById('btn-save-ranking').disabled = false;
+                  applyRankingLocally(eventId, payload, 'บันทึกผลและออกเกียรติบัตรบนเว็บแล้ว (โปรด Authorize Google Sheets เพื่อให้ซิงก์ข้ามเครื่อง)');
+                },
+                function (msg) {
+                  document.getElementById('btn-save-ranking').disabled = false;
+                  showToast(msg || 'บันทึกไม่สำเร็จ');
+                }
+              );
+              return;
+            }
             document.getElementById('btn-save-ranking').disabled = false;
             showToast('เชื่อมต่อ Google Sheets ขัดข้อง');
           }
         );
       } else {
-        state.rankings[eventId] = {
-          rank1_school: payload.rank1School,
-          rank1_athlete: payload.rank1Athlete,
-          rank2_school: payload.rank2School,
-          rank2_athlete: payload.rank2Athlete,
-          rank3a_school: payload.rank3aSchool,
-          rank3a_athlete: payload.rank3aAthlete,
-          rank3b_school: payload.rank3bSchool,
-          rank3b_athlete: payload.rank3bAthlete,
-          referee_name: payload.refereeName,
-          note: payload.note
-        };
-        const ev = state.events.find(function (x) { return x.event_id === eventId; });
-        if (ev) ev.status = 'ตัดสินแล้ว';
-        persistLocalState();
-        renderAll();
-        showToast('บันทึกผลและประมวลผลเกียรติบัตรเรียบร้อยแล้ว');
-        openCertForEvent(eventId);
+        applyRankingLocally(eventId, payload);
       }
     }
 
@@ -1703,24 +1772,23 @@
             switchTab('results');
           },
           function () {
+            if (state.hasRemoteApi && state.isAdminLoggedIn) {
+              verifyPinViaVercelApi(
+                pin,
+                function () {
+                  applyMatchLocally(payload, 'บันทึกสกอร์ ' + scoreA + ' - ' + scoreB + ' บนเว็บแล้ว (โปรด Authorize Google Sheets เพื่อให้ซิงก์ข้ามเครื่อง)');
+                },
+                function (msg) {
+                  showToast(msg || 'บันทึกสกอร์ไม่สำเร็จ');
+                }
+              );
+              return;
+            }
             showToast('เชื่อมต่อ Google Sheets ขัดข้อง');
           }
         );
       } else {
-        state.matches.unshift({
-          match_id: 'M_' + Date.now(),
-          event_id: eventId,
-          round_name: roundName,
-          team_a: teamA,
-          score_a: scoreA,
-          score_b: scoreB,
-          team_b: teamB,
-          match_status: matchStatus === 'กำลังแข่งขัน' ? 'LIVE' : matchStatus
-        });
-        persistLocalState();
-        renderMatchCards();
-        showToast('บันทึกสกอร์ ' + scoreA + ' - ' + scoreB + ' เรียบร้อยแล้ว');
-        switchTab('results');
+        applyMatchLocally(payload);
       }
     }
 

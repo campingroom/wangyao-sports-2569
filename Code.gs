@@ -14,6 +14,10 @@ const CACHE_KEY_STATE = 'WKD_SPORTS_STATE_V1';
 const CACHE_TTL_SECONDS = 120;
 const PROP_ADMIN_PIN_HASH = 'WKD_ADMIN_PIN_HASH';
 const PROP_ADMIN_SALT = 'WKD_ADMIN_PIN_SALT';
+const DEFAULT_ADMIN_SALT = '67816bd3-d9b5-41ac-800f-a45f47154ec9';
+const DEFAULT_ADMIN_PIN_HASH = '3368b75079a3745062e4d6e5286e0a271fd9a17fa8acf9c856a096a9cd1b39a2';
+const PIN_MAX_FAILS = 5;
+const PIN_LOCK_SECONDS = 60;
 
 const SHEET_NAMES = {
   SCHOOLS: 'Schools',
@@ -156,18 +160,30 @@ function verifyAdminPin(pinInput) {
   const pin = String(pinInput || '').trim();
   if (!pin) return { ok: false, message: 'กรุณากรอกรหัส PIN กรรมการ' };
 
+  const cache = CacheService.getScriptCache();
+  const failCount = Number(cache.get('PIN_FAIL_COUNT') || 0);
+  if (failCount >= PIN_MAX_FAILS) {
+    return { ok: false, message: 'กรอกรหัส PIN ผิดเกินกำหนด กรุณารอ 60 วินาทีแล้วลองใหม่ค่ะ' };
+  }
+
   const props = PropertiesService.getScriptProperties();
-  const salt = props.getProperty(PROP_ADMIN_SALT);
-  const storedHash = props.getProperty(PROP_ADMIN_PIN_HASH);
+  let salt = props.getProperty(PROP_ADMIN_SALT);
+  let storedHash = props.getProperty(PROP_ADMIN_PIN_HASH);
 
   if (!salt || !storedHash) {
-    return { ok: false, message: 'ยังไม่ได้ตั้งค่ารหัส PIN ใน Google Sheets กรุณาตั้งค่าผ่านเมนู ระบบกีฬา 2569' };
+    salt = DEFAULT_ADMIN_SALT;
+    storedHash = DEFAULT_ADMIN_PIN_HASH;
+    props.setProperty(PROP_ADMIN_SALT, salt);
+    props.setProperty(PROP_ADMIN_PIN_HASH, storedHash);
   }
 
   const candidateHash = hashPin_(pin, salt);
   if (candidateHash === storedHash) {
+    cache.remove('PIN_FAIL_COUNT');
     return { ok: true, message: 'ยืนยันสิทธิ์กรรมการสำเร็จ' };
   }
+
+  cache.put('PIN_FAIL_COUNT', String(failCount + 1), PIN_LOCK_SECONDS);
   return { ok: false, message: 'รหัส PIN ไม่ถูกต้อง' };
 }
 
