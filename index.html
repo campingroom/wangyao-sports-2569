@@ -148,6 +148,57 @@
       line-height: 1.08 !important;
     }
 
+    /* Mobile-First Event Card & Vertical Bracket Tree */
+    .event-card-layout {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .event-card-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding-top: 8px;
+      border-top: 1px solid #F3F0F7;
+    }
+    .bracket-desktop-tree { display: none; }
+    .bracket-mobile-tree { display: block; }
+    @media (min-width: 640px) {
+      .event-card-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        column-gap: 12px;
+        row-gap: 8px;
+        align-items: start;
+      }
+      .event-card-header { grid-column: 1; grid-row: 1; }
+      .event-card-actions {
+        grid-column: 2;
+        grid-row: 1;
+        justify-content: flex-end;
+        padding-top: 0;
+        border-top: 0;
+      }
+      .event-card-body,
+      .event-card-bracket { grid-column: 1 / -1; }
+      .bracket-desktop-tree { display: block; }
+      .bracket-mobile-tree { display: none; }
+    }
+    .phone-frame .event-card-layout {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 10px !important;
+    }
+    .phone-frame .event-card-actions {
+      justify-content: space-between !important;
+      padding-top: 8px !important;
+      border-top: 1px solid #F3F0F7 !important;
+    }
+    .phone-frame .bracket-desktop-tree { display: none !important; }
+    .phone-frame .bracket-mobile-tree { display: block !important; }
+
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
@@ -881,7 +932,7 @@
 
               <div>
                 <label class="block font-bold text-[#111114] mb-1">ชื่อรายการแข่งขัน (ข้อความเด่นกลางใบ)</label>
-                <input id="cert-sport-input" oninput="updateCertPreviewText()" type="text" value="ฟุตบอล 7 คน ป.4-6 (ชาย)" class="w-full bg-[#FBF6EA] border border-[#E5D3A8] rounded-xl px-3 py-2 text-[#6B4D14] font-bold" />
+                <input id="cert-sport-input" oninput="updateCertPreviewText()" type="text" value="ฟุตบอล 7 คน ประถมศึกษาปีที่ 4-6 (ชาย)" class="w-full bg-[#FBF6EA] border border-[#E5D3A8] rounded-xl px-3 py-2 text-[#6B4D14] font-bold" />
               </div>
 
               <div>
@@ -946,8 +997,8 @@
 
                 <!-- 4. Centerpiece Event Name Banner (Dead center between 3 gold speed lines) -->
                 <div class="font-cert-thai absolute top-[57.6%] left-[28.2%] right-[28.2%] h-[6.6%] flex items-center justify-center text-center pointer-events-none">
-                  <div id="cert-sport-display" class="font-sport text-[10px] sm:text-[22px] font-bold tracking-wide text-[#E5AA26] text-center leading-none whitespace-nowrap" style="paint-order: stroke fill; -webkit-text-stroke: 2px #361B5C; text-shadow: 0 2px 0 rgba(122,82,12,0.35);">
-                    ฟุตบอล 7 คน ป.4-6 (ชาย)
+                  <div id="cert-sport-display" class="font-sport text-[7.5px] sm:text-[15px] md:text-[17px] font-bold tracking-wide text-[#E5AA26] text-center leading-none whitespace-nowrap" style="paint-order: stroke fill; -webkit-text-stroke: 2px #361B5C; text-shadow: 0 2px 0 rgba(122,82,12,0.35);">
+                    ฟุตบอล 7 คน ประถมศึกษาปีที่ 4-6 (ชาย)
                   </div>
                 </div>
 
@@ -1093,10 +1144,10 @@
     ];
 
     const DEFAULT_RANKINGS = {
-      FB_7_P46_M: { rank1_school: 'โรงเรียนบ้านวังยาววิทยายน', rank1_athlete: 'ทีมฟุตบอลโรงเรียนบ้านวังยาววิทยายน', rank2_school: 'โรงเรียนบ้านวังกุง', rank2_athlete: 'ทีมฟุตบอลโรงเรียนบ้านวังกุง', rank3a_school: 'โรงเรียนบ้านหนองสระพังโนนสะอาด', rank3a_athlete: 'ทีมฟุตบอลโรงเรียนบ้านหนองสระพังฯ', rank3b_school: 'โรงเรียนบ้านโนนราษีโคกล่าม', rank3b_athlete: 'ทีมฟุตบอลโรงเรียนบ้านโนนราษีฯ', referee_name: 'นายบรรเจิด กองเกิด', note: 'รอบชิงชนะเลิศ 3-1' },
-      FB_K_MIX: { rank1_school: 'ศพด.อบต.วังยาว', rank1_athlete: 'ทีมฟุตบอลอนุบาล ศพด.อบต.วังยาว', rank2_school: 'โรงเรียนบ้านวังยาววิทยายน', rank2_athlete: 'ทีมฟุตบอลอนุบาล ร.ร.บ้านวังยาวฯ', rank3a_school: 'ศพด.อบต.เขวาไร่', rank3a_athlete: 'ทีมฟุตบอลอนุบาล ศพด.อบต.เขวาไร่', rank3b_school: 'ศพด.วัดบ้านวังกุง', rank3b_athlete: 'ทีมฟุตบอลอนุบาล ศพด.วัดบ้านวังกุง', referee_name: 'นายกิจภูมิ บุญอบ', note: '' },
-      FS_P46_M: { rank1_school: 'โรงเรียนบ้านหนองสระพังโนนสะอาด', rank1_athlete: 'ทีมฟุตซอล ร.ร.บ้านหนองสระพังฯ', rank2_school: 'โรงเรียนดอนกลางนุกูลวิทย์', rank2_athlete: 'ทีมฟุตซอล ร.ร.ดอนกลางนุกูลวิทย์', rank3a_school: 'โรงเรียนบ้านวังโพน', rank3a_athlete: 'ทีมฟุตซอล ร.ร.บ้านวังโพน', rank3b_school: 'โรงเรียนบ้านโคกกลาง', rank3b_athlete: 'ทีมฟุตซอล ร.ร.บ้านโคกกลาง', referee_name: 'นายปวรัฐ บุตรดี', note: '' },
-      VB_P46_F: { rank1_school: 'โรงเรียนหินแห่เสริมศิลป์', rank1_athlete: 'ทีมวอลเลย์บอลหญิง ร.ร.หินแห่เสริมศิลป์', rank2_school: 'โรงเรียนบ้านวังยาววิทยายน', rank2_athlete: 'ทีมวอลเลย์บอลหญิง ร.ร.บ้านวังยาวฯ', rank3a_school: 'โรงเรียนบ้านโนนราษีโคกล่าม', rank3a_athlete: 'ทีมวอลเลย์บอลหญิง ร.ร.บ้านโนนราษีฯ', rank3b_school: 'โรงเรียนบ้านทิพโสต', rank3b_athlete: 'ทีมวอลเลย์บอลหญิง ร.ร.บ้านทิพโสต', referee_name: 'นายมาศพล ประทุมแพง', note: '' },
+      FB_7_P46_M: { rank1_school: 'โรงเรียนบ้านวังยาววิทยายน', rank1_athlete: 'ทีมฟุตบอลโรงเรียนบ้านวังยาววิทยายน', rank2_school: 'โรงเรียนบ้านวังกุง', rank2_athlete: 'ทีมฟุตบอลโรงเรียนบ้านวังกุง', rank3a_school: 'โรงเรียนบ้านหนองสระพังโนนสะอาด', rank3a_athlete: 'ทีมฟุตบอลโรงเรียนบ้านหนองสระพังโนนสะอาด', rank3b_school: 'โรงเรียนบ้านโนนราษีโคกล่าม', rank3b_athlete: 'ทีมฟุตบอลโรงเรียนบ้านโนนราษีโคกล่าม', referee_name: 'นายบรรเจิด กองเกิด', note: 'รอบชิงชนะเลิศ 3-1' },
+      FB_K_MIX: { rank1_school: 'ศูนย์พัฒนาเด็กเล็กองค์การบริหารส่วนตำบลวังยาว', rank1_athlete: 'ทีมฟุตบอลอนุบาล ศูนย์พัฒนาเด็กเล็กองค์การบริหารส่วนตำบลวังยาว', rank2_school: 'โรงเรียนบ้านวังยาววิทยายน', rank2_athlete: 'ทีมฟุตบอลอนุบาล โรงเรียนบ้านวังยาววิทยายน', rank3a_school: 'ศูนย์พัฒนาเด็กเล็กองค์การบริหารส่วนตำบลเขวาไร่', rank3a_athlete: 'ทีมฟุตบอลอนุบาล ศูนย์พัฒนาเด็กเล็กองค์การบริหารส่วนตำบลเขวาไร่', rank3b_school: 'ศูนย์พัฒนาเด็กเล็กวัดบ้านวังกุง', rank3b_athlete: 'ทีมฟุตบอลอนุบาล ศูนย์พัฒนาเด็กเล็กวัดบ้านวังกุง', referee_name: 'นายกิจภูมิ บุญอบ', note: '' },
+      FS_P46_M: { rank1_school: 'โรงเรียนบ้านหนองสระพังโนนสะอาด', rank1_athlete: 'ทีมฟุตซอลโรงเรียนบ้านหนองสระพังโนนสะอาด', rank2_school: 'โรงเรียนดอนกลางนุกูลวิทย์', rank2_athlete: 'ทีมฟุตซอลโรงเรียนดอนกลางนุกูลวิทย์', rank3a_school: 'โรงเรียนบ้านวังโพน', rank3a_athlete: 'ทีมฟุตซอลโรงเรียนบ้านวังโพน', rank3b_school: 'โรงเรียนบ้านโคกกลาง', rank3b_athlete: 'ทีมฟุตซอลโรงเรียนบ้านโคกกลาง', referee_name: 'นายปวรัฐ บุตรดี', note: '' },
+      VB_P46_F: { rank1_school: 'โรงเรียนหินแห่เสริมศิลป์', rank1_athlete: 'ทีมวอลเลย์บอลหญิงโรงเรียนหินแห่เสริมศิลป์', rank2_school: 'โรงเรียนบ้านวังยาววิทยายน', rank2_athlete: 'ทีมวอลเลย์บอลหญิงโรงเรียนบ้านวังยาววิทยายน', rank3a_school: 'โรงเรียนบ้านโนนราษีโคกล่าม', rank3a_athlete: 'ทีมวอลเลย์บอลหญิงโรงเรียนบ้านโนนราษีโคกล่าม', rank3b_school: 'โรงเรียนบ้านทิพโสต', rank3b_athlete: 'ทีมวอลเลย์บอลหญิงโรงเรียนบ้านทิพโสต', referee_name: 'นายมาศพล ประทุมแพง', note: '' },
       TR_100_P56_M: { rank1_school: 'โรงเรียนดอนกลางนุกูลวิทย์', rank1_athlete: 'เด็กชายกิตติศักดิ์ ใจกล้า', rank2_school: 'โรงเรียนบ้านวังยาววิทยายน', rank2_athlete: 'เด็กชายศุภกร แสงทอง', rank3a_school: 'โรงเรียนบ้านหนองเขื่อน', rank3a_athlete: 'เด็กชายพีรพล สุขดี', rank3b_school: '', rank3b_athlete: '', referee_name: 'นายณัฐพล ผลรุ่ง', note: '' }
     };
 
@@ -1296,7 +1347,56 @@
     }
 
     function shortSchool(name) {
-      return String(name || '').replace('โรงเรียน', 'ร.ร.');
+      return String(name || '')
+        .replace(/ศูนย์พัฒนาเด็กเล็กองค์การบริหารส่วนตำบล/g, 'ศพด.อบต.')
+        .replace(/ศูนย์พัฒนาเด็กเล็ก/g, 'ศพด.')
+        .replace(/องค์การบริหารส่วนตำบล/g, 'อบต.')
+        .replace(/โรงเรียน/g, 'ร.ร.');
+    }
+
+    function expandCertText(str) {
+      return toArabicDigits(String(str == null ? '' : str))
+        .replace(/ร\.ร\./g, 'โรงเรียน')
+        .replace(/ศพด\./g, 'ศูนย์พัฒนาเด็กเล็ก')
+        .replace(/อบต\./g, 'องค์การบริหารส่วนตำบล')
+        .replace(/สพป\./g, 'สำนักงานเขตพื้นที่การศึกษาประถมศึกษา')
+        .replace(/ด\.ช\./g, 'เด็กชาย')
+        .replace(/ด\.ญ\./g, 'เด็กหญิง')
+        .replace(/บ้านวังยาวฯ/g, 'บ้านวังยาววิทยายน')
+        .replace(/วังยาวฯ/g, 'วังยาววิทยายน')
+        .replace(/หนองสระพังฯ/g, 'หนองสระพังโนนสะอาด')
+        .replace(/โนนราษีฯ/g, 'โนนราษีโคกล่าม')
+        .replace(/ดอนกลางฯ/g, 'ดอนกลางนุกูลวิทย์')
+        .replace(/หินแห่ฯ/g, 'หินแห่เสริมศิลป์')
+        .replace(/บะหลวงฯ/g, 'บะหลวงหนองแวง')
+        .replace(/อบ\.(\d+(?:-\d+)?)/g, 'อนุบาล $1')
+        .replace(/อ\.(\d+)-อ\.(\d+)/g, 'อนุบาล $1-$2')
+        .replace(/ป\.(\d+(?:-\d+)?)/g, 'ประถมศึกษาปีที่ $1')
+        .replace(/ม\.(\d+(?:-\d+)?)/g, 'มัธยมศึกษาปีที่ $1')
+        .replace(/(^|[\s(])ช(\d+)\s*ญ(\d+)/g, '$1ชาย $2 หญิง $3')
+        .replace(/(\(\s*ชาย\s+\d+\s+หญิง\s+\d+\s*\))(.*)\(ผสม\s+ชาย\s+\d+\s+หญิง\s+\d+\)/g, '$2(ผสม $1)')
+        .replace(/\(\(/g, '(')
+        .replace(/\)\)/g, ')')
+        .replace(/อนุบาล\s*\(\s*อนุบาล\s*/g, 'อนุบาล (')
+        .replace(/อนุบาล\s+อนุบาล/g, 'อนุบาล')
+        .replace(/\s+/g, ' ')
+        .trim();
+    }
+
+    function formatEventTitle(ev) {
+      if (!ev) return '';
+      const name = String(ev.sport_name || '').trim();
+      let lvl = String(ev.level || '').trim();
+      const gen = String(ev.gender || '').trim();
+      if (name.indexOf('อนุบาล') !== -1 && lvl.indexOf('อนุบาล') === 0) {
+        lvl = lvl.replace(/^อนุบาล\s*/, '').trim();
+      }
+      const hasLevelInGender = gen && (gen.indexOf('อบ.') !== -1 || gen.indexOf('ป.') !== -1 || gen.indexOf('ม.') !== -1);
+      const hasLevelInName = lvl && name.indexOf(lvl) !== -1;
+      const parts = [name];
+      if (lvl && !hasLevelInName && !hasLevelInGender) parts.push(lvl);
+      const title = parts.join(' ');
+      return toArabicDigits(gen ? (title + ' (' + gen + ')') : title);
     }
 
     function getSportSvgIcon(category, ev) {
@@ -1409,11 +1509,18 @@
         }).join('');
       document.querySelectorAll('.school-dropdown').forEach(function (sel) { sel.innerHTML = schoolHtml; });
 
+      const adminSel = document.getElementById('admin-event-select');
+      const certSel = document.getElementById('cert-event-select');
+      const prevAdminVal = adminSel.value;
+      const prevCertVal = certSel.value;
+
       const eventHtml = state.events.map(function (ev) {
-        return '<option value="' + esc(ev.event_id) + '">' + esc(toArabicDigits(ev.sport_name + ' ' + ev.level + ' (' + ev.gender + ')')) + '</option>';
+        return '<option value="' + esc(ev.event_id) + '">' + esc(formatEventTitle(ev)) + '</option>';
       }).join('');
-      document.getElementById('admin-event-select').innerHTML = eventHtml;
-      document.getElementById('cert-event-select').innerHTML = eventHtml;
+      adminSel.innerHTML = eventHtml;
+      certSel.innerHTML = eventHtml;
+      if (prevAdminVal && Array.prototype.some.call(adminSel.options, function (o) { return o.value === prevAdminVal; })) adminSel.value = prevAdminVal;
+      if (prevCertVal && Array.prototype.some.call(certSel.options, function (o) { return o.value === prevCertVal; })) certSel.value = prevCertVal;
     }
 
     function renderAll() {
@@ -1821,13 +1928,40 @@
             '<p class="text-[10px] text-[#6E6B78]">รอผลการแข่งขันรอบชิงชนะเลิศ</p>' +
           '</div>';
 
-      return '<div onclick="event.stopPropagation()" class="mt-3 pt-3 border-t border-[#ECE6F4] bg-gradient-to-br from-[#FAF8FC] via-[#FFFFFF] to-[#FCF8EE] rounded-2xl p-3 sm:p-4 space-y-3">' +
+      const mobileBracketHtml = '<div class="bracket-mobile-tree space-y-2.5">' +
+        '<div class="space-y-1.5">' +
+          '<p class="text-[10.5px] font-extrabold text-[#5B1855] flex items-center justify-between"><span>' + esc(toArabicDigits(b.stageLabels[0])) + '</span><span class="text-[#8C8798] font-medium">4 คู่คัดเลือก</span></p>' +
+          '<div class="grid grid-cols-1 gap-1.5">' +
+            b.qf.map(function (m) { return renderBracketMatchNode(m, 'h-[66px]', false); }).join('') +
+          '</div>' +
+        '</div>' +
+        '<div class="flex items-center justify-center gap-2 py-0.5">' +
+          '<span class="h-px flex-1 bg-[#E5D4EC]"></span>' +
+          '<span class="px-2.5 py-0.5 rounded-full bg-[#FAF3FA] border border-[#E5D4EC] text-[10px] font-extrabold text-[#5B1855]">&#8595; ' + esc(toArabicDigits(b.stageLabels[1])) + '</span>' +
+          '<span class="h-px flex-1 bg-[#E5D4EC]"></span>' +
+        '</div>' +
+        '<div class="grid grid-cols-1 gap-1.5">' +
+          b.sf.map(function (m) { return renderBracketMatchNode(m, 'h-[68px]', false); }).join('') +
+        '</div>' +
+        '<div class="flex items-center justify-center gap-2 py-0.5">' +
+          '<span class="h-px flex-1 bg-[#E8D5A7]"></span>' +
+          '<span class="px-2.5 py-0.5 rounded-full bg-[#FBF6EA] border border-[#D7B975] text-[10px] font-extrabold text-[#8A6520]">&#8595; ' + esc(toArabicDigits(b.stageLabels[2])) + '</span>' +
+          '<span class="h-px flex-1 bg-[#E8D5A7]"></span>' +
+        '</div>' +
+        renderBracketMatchNode(b.finalMatch, 'h-[78px]', true) +
+        championCardHtml +
+      '</div>';
+
+      return '<div onclick="event.stopPropagation()" class="event-card-bracket mt-1 pt-3 border-t border-[#ECE6F4] bg-gradient-to-br from-[#FAF8FC] via-[#FFFFFF] to-[#FCF8EE] rounded-2xl p-3 sm:p-4 space-y-3">' +
         '<div class="flex flex-wrap items-center justify-between gap-2">' +
-          '<div class="flex flex-wrap items-center gap-1.5">' + stagePillsHtml + '</div>' +
+          '<div class="hidden sm:flex flex-wrap items-center gap-1.5">' + stagePillsHtml + '</div>' +
+          '<span class="sm:hidden text-[11px] font-extrabold text-[#111114]">ผังสายรอบตัดเชือก (แนวตั้ง)</span>' +
           actionTagHtml +
         '</div>' +
 
-        '<div class="overflow-x-auto no-scrollbar pb-1">' +
+        mobileBracketHtml +
+
+        '<div class="bracket-desktop-tree overflow-x-auto no-scrollbar pb-1">' +
           '<div class="min-w-[680px] flex items-stretch">' +
             '<!-- Column 1: 4 Quarterfinals (height 336px: centers 36, 124, 212, 300) -->' +
             '<div class="w-[202px] shrink-0 h-[336px] flex flex-col justify-between">' +
@@ -1911,12 +2045,12 @@
           : (ev.status === 'กำลังแข่งขัน' ? 'bg-[#5B1855] text-white' : 'bg-[#F3F2F6] text-[#6E6B78] border border-[#E5E3EA]');
 
         const winnersHtml = done
-          ? '<div class="grid grid-cols-1 sm:grid-cols-3 gap-1.5 mt-2.5 text-[11px]">' +
+          ? '<div class="event-card-body grid grid-cols-1 sm:grid-cols-3 gap-1.5 text-[11px]">' +
               '<div class="bg-[#FBF6EA] border border-[#EAD6A8] rounded-xl px-2.5 py-1.5"><span class="text-[#8A6520] font-extrabold">&#129351; ชนะเลิศ:</span> <span class="text-[#111114] font-bold">' + esc(shortSchool(rk.rank1_school)) + '</span></div>' +
               '<div class="bg-[#FAF3FA] border border-[#E7D4E5] rounded-xl px-2.5 py-1.5"><span class="text-[#5B1855] font-bold">&#129352; รองฯ 1:</span> <span class="text-[#111114] font-medium">' + esc(shortSchool(rk.rank2_school || '-')) + '</span></div>' +
               '<div class="bg-[#FAFAFC] border border-[#ECEAF0] rounded-xl px-2.5 py-1.5"><span class="text-[#6E6B78] font-semibold">&#129353; รองฯ 2:</span> <span class="text-[#111114]">' + esc([rk.rank3a_school, rk.rank3b_school].filter(Boolean).map(shortSchool).join(' / ') || '-') + '</span></div>' +
             '</div>'
-          : '<p class="text-[11px] text-[#6E6B78] mt-1 font-medium">' + esc(sched.full) + '</p>';
+          : '<p class="event-card-body text-[11px] text-[#6E6B78] font-medium leading-relaxed">' + esc(sched.full) + '</p>';
 
         let actionBtn = '';
         if (done) {
@@ -1931,26 +2065,22 @@
           actionBtn = '<span class="inline-flex items-center px-3 py-1 rounded-full border text-[11px] whitespace-nowrap shrink-0 ' + publicCls + '">' + esc(publicLabel) + '</span>';
         }
 
-        const bracketToggleBtn = '<button type="button" onclick="event.stopPropagation(); toggleEventBracket(\'' + esc(ev.event_id) + '\')" class="px-2.5 py-1 rounded-full border text-[10.5px] font-bold inline-flex items-center gap-1 cursor-pointer transition shrink-0 ' +
+        const bracketToggleBtn = '<button type="button" onclick="event.stopPropagation(); toggleEventBracket(\'' + esc(ev.event_id) + '\')" class="px-3 py-1.5 sm:py-1 rounded-full border text-[11px] sm:text-[10.5px] font-bold inline-flex items-center gap-1 cursor-pointer transition whitespace-nowrap shrink-0 ' +
           (isExpanded ? 'bg-[#5B1855] text-white border-[#5B1855]' : 'bg-[#FAF3FA] text-[#5B1855] border-[#E5D4EC] hover:bg-[#F3E9F7]') + '">' +
           '<span>' + (isExpanded ? 'ซ่อนผังสาย' : 'ผังสายตัดเชือก') + '</span>' +
           '<svg class="w-3 h-3 transition-transform ' + (isExpanded ? 'rotate-180' : '') + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="6 9 12 15 18 9"/></svg>' +
         '</button>';
 
-        return '<div id="event-row-' + esc(ev.event_id) + '" onclick="toggleEventBracket(\'' + esc(ev.event_id) + '\')" class="p-3.5 sm:px-5 cursor-pointer transition ' + (isExpanded ? 'bg-[#FCFBFD]' : 'hover:bg-[#FAFAFC]') + '">' +
-          '<div class="flex items-start justify-between gap-2 flex-wrap sm:flex-nowrap">' +
-            '<div class="flex items-start gap-2.5 min-w-0 flex-1">' +
-              '<div class="mt-0.5">' + getSportSvgIcon(ev.category, ev) + '</div>' +
-              '<div class="min-w-0">' +
-                '<div class="flex items-center gap-2 flex-wrap">' +
-                  '<p class="font-extrabold text-xs sm:text-sm text-[#111114]">' + esc(toArabicDigits(ev.sport_name + ' ' + ev.level + ' (' + ev.gender + ')')) + '</p>' +
-                  '<span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold ' + badgeCls + '">' + esc(ev.status) + '</span>' +
-                '</div>' +
-              '</div>' +
+        return '<div id="event-row-' + esc(ev.event_id) + '" onclick="toggleEventBracket(\'' + esc(ev.event_id) + '\')" class="event-card-layout p-3.5 sm:px-5 cursor-pointer transition ' + (isExpanded ? 'bg-[#FCFBFD]' : 'hover:bg-[#FAFAFC]') + '">' +
+          '<div class="event-card-header flex items-center gap-2.5 min-w-0">' +
+            getSportSvgIcon(ev.category, ev) +
+            '<div class="min-w-0 flex-1 flex items-center justify-between sm:justify-start gap-2 flex-wrap">' +
+              '<p class="font-extrabold text-[13px] sm:text-sm text-[#111114] leading-snug">' + esc(formatEventTitle(ev)) + '</p>' +
+              '<span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold whitespace-nowrap shrink-0 ' + badgeCls + '">' + esc(ev.status) + '</span>' +
             '</div>' +
-            '<div class="flex items-center gap-1.5 shrink-0">' + bracketToggleBtn + actionBtn + '</div>' +
           '</div>' +
           winnersHtml +
+          '<div class="event-card-actions">' + bracketToggleBtn + actionBtn + '</div>' +
           (isExpanded ? renderBracketHtml(ev) : '') +
         '</div>';
       }).join('');
@@ -2309,10 +2439,10 @@
       };
       const slot = slotMap[state.activeCertRank] || slotMap.rank1;
 
-      document.getElementById('cert-recipient-input').value = slot.athlete || slot.school || 'รอผลการแข่งขัน';
-      document.getElementById('cert-school-input').value = slot.school || 'กลุ่มโรงเรียนวังยาวเขวาไร่ดอนกลาง';
+      document.getElementById('cert-recipient-input').value = expandCertText(slot.athlete || slot.school || 'รอผลการแข่งขัน');
+      document.getElementById('cert-school-input').value = expandCertText(slot.school || 'กลุ่มโรงเรียนวังยาวเขวาไร่ดอนกลาง');
 
-      const eventDisplayTh = toArabicDigits(ev.sport_name + ' ' + ev.level + ' (' + ev.gender + ')');
+      const eventDisplayTh = expandCertText(formatEventTitle(ev));
       const eventDisplayEn = toArabicDigits((ev.sport_en || 'FOOTBALL') + ' • ' + ev.level);
       document.getElementById('cert-sport-input').value = (lang === 'en') ? eventDisplayEn : eventDisplayTh;
 
@@ -2325,9 +2455,9 @@
 
     function updateCertPreviewText() {
       const lang = document.getElementById('cert-lang-select').value;
-      const recipient = document.getElementById('cert-recipient-input').value;
-      const school = document.getElementById('cert-school-input').value;
-      const eventBanner = document.getElementById('cert-sport-input').value;
+      const recipient = expandCertText(document.getElementById('cert-recipient-input').value);
+      const school = expandCertText(document.getElementById('cert-school-input').value);
+      const eventBanner = expandCertText(document.getElementById('cert-sport-input').value);
 
       const awardLabels = {
         rank1: { th: 'ได้รับรางวัลชนะเลิศ', en: 'FIRST PLACE CHAMPION' },
@@ -2338,15 +2468,14 @@
       };
       const aw = awardLabels[state.activeCertRank] || awardLabels.rank1;
 
-      document.getElementById('cert-recipient-display').textContent = recipient;
-      document.getElementById('cert-school-display').textContent = school;
-
       const sportEl = document.getElementById('cert-sport-display');
-      sportEl.textContent = toArabicDigits(eventBanner);
-      if (eventBanner.length > 26) {
-        sportEl.className = 'font-sport text-[8px] sm:text-[17px] font-bold tracking-wide text-[#E5AA26] text-center leading-none whitespace-nowrap';
+      sportEl.textContent = eventBanner;
+      if (eventBanner.length > 36) {
+        sportEl.className = 'font-sport text-[6.5px] sm:text-[13px] md:text-[14.5px] font-bold tracking-normal text-[#E5AA26] text-center leading-none whitespace-nowrap';
+      } else if (eventBanner.length > 26) {
+        sportEl.className = 'font-sport text-[7.5px] sm:text-[15px] md:text-[17px] font-bold tracking-wide text-[#E5AA26] text-center leading-none whitespace-nowrap';
       } else if (eventBanner.length > 18) {
-        sportEl.className = 'font-sport text-[9px] sm:text-[20px] font-bold tracking-wide text-[#E5AA26] text-center leading-none whitespace-nowrap';
+        sportEl.className = 'font-sport text-[9px] sm:text-[19px] font-bold tracking-wide text-[#E5AA26] text-center leading-none whitespace-nowrap';
       } else {
         sportEl.className = 'font-sport text-[10px] sm:text-[22px] font-bold tracking-wide text-[#E5AA26] text-center leading-none whitespace-nowrap';
       }
@@ -2387,16 +2516,22 @@
         if (footer2El) footer2El.textContent = '';
       }
       const recEl = document.getElementById('cert-recipient-display');
-      const recText = toArabicDigits(recipient);
+      const recText = recipient;
       recEl.textContent = recText;
-      if (recText.length > 36) {
-        recEl.className = 'text-[8.5px] sm:text-[15px] md:text-[17px] font-bold text-[#2C184D] leading-tight whitespace-nowrap';
+      if (recText.length > 52) {
+        recEl.className = 'text-[6.5px] sm:text-[12.5px] md:text-[14.5px] font-bold text-[#2C184D] leading-tight whitespace-nowrap';
+      } else if (recText.length > 36) {
+        recEl.className = 'text-[8px] sm:text-[14.5px] md:text-[16.5px] font-bold text-[#2C184D] leading-tight whitespace-nowrap';
       } else if (recText.length > 28) {
         recEl.className = 'text-[9px] sm:text-[16px] md:text-[19px] font-bold text-[#2C184D] leading-tight whitespace-nowrap';
       } else {
         recEl.className = 'text-[10px] sm:text-[18px] md:text-[21px] font-bold text-[#2C184D] leading-tight whitespace-nowrap';
       }
-      document.getElementById('cert-school-display').textContent = toArabicDigits(school);
+      const schEl = document.getElementById('cert-school-display');
+      schEl.textContent = school;
+      schEl.className = (school.length > 40)
+        ? 'text-[4.5px] sm:text-[9.5px] font-semibold text-[#5B3D8F] mt-0.5 leading-tight whitespace-nowrap'
+        : 'text-[5.5px] sm:text-[11px] font-semibold text-[#5B3D8F] mt-0.5 leading-tight whitespace-nowrap';
     }
 
     function showToast(msg) {
