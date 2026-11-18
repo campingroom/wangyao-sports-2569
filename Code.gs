@@ -60,7 +60,9 @@ function doPost(e) {
   try {
     const body = JSON.parse((e && e.postData && e.postData.contents) ? e.postData.contents : '{}');
     let res = { ok: false, message: 'Invalid action' };
-    if (body.action === 'saveRankingRecord') {
+    if (body.action === 'verifyAdminPin') {
+      res = verifyAdminPin(body.pin || (body.payload && body.payload.pin) || '');
+    } else if (body.action === 'saveRankingRecord') {
       res = saveRankingRecord(body.payload || {});
     } else if (body.action === 'saveMatchRecord') {
       res = saveMatchRecord(body.payload || {});
